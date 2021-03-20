@@ -28,3 +28,7 @@ Also if the project consists of multiple steps like building a house, then proje
   - Create, Modify, Delete Tasks Under the project
 - Deposit and Withdraw money from the account
 - Chat in the project thread
+
+## Database Architecture
+
+![picture alt](https://raw.githubusercontent.com/AlexeySmolyaninov/tkt-tsoha-project-ordi/master/Database_architecture_diagram.png "OrDi Database Architecture")
