@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+  <div>
+    <div>
+      <h1 class="text-center" style="margin-bottom: 40px;">Login Ordi</h1>
+    </div>
+    <div>
+      <form action="/" method="POST">
+        <div class="form-group">
+          <input type="text" name="username" class="form-control" id="username" placeholder="You username" required>
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" class="form-control" id="password" placeholder="Your password" required>
+        </div>
+          <button type="submit" class="btn btn-success">Login</button>
+          <a class="btn btn-primary" href="/register">Register</a>
+      </form>
+    </div>
+  </div>
+{% endblock%}
