@@ -40,6 +40,6 @@ https://tsoha-ordi.herokuapp.com/
 ### Release Notes
 
 - **March 28 2021**:
-  - You can register, login, logout and open your wallet
-  - DOING: user able to deposit and withdraw from his wallet
+  - You can register, login, logout, open your wallet, deposit
+  - DOING: withdraw from his wallet
   - NEXT: Implementation of creation of a new project with the subtasks
