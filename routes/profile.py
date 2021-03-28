@@ -4,13 +4,6 @@ from app import app
 @app.route("/profile/<string:username>")
 def get_profile(username):
   if "user" in session:
-    return render_template("profile.html", username=username)
-  else:
-    return redirect("/")
-
-@app.route("/wallet")
-def wallet():
-  if "user" in session:
-    return render_template("wallet.html")
+    return render_template("profile.html", username=username, back_link="")
   else:
     return redirect("/")

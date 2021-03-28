@@ -24,13 +24,11 @@ def register():
   if request.method == "GET":
     return render_template("register.html")
   else:
-    print(request.form)
     first_name = request.form["firstName"]
     surname = request.form["surname"]
     user_name = request.form["userName"]
     password_1 = request.form["password1"]
     password_2 = request.form["password2"]
-    print("nice")
     result = loginRegister.register(
       first_name,
       surname,

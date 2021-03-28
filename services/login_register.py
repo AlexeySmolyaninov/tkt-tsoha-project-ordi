@@ -12,8 +12,8 @@ def register(first_name, surname, username, password, password2):
   try:
     hashed_pw = generate_password_hash(password)
     sql = "INSERT INTO users (first_name, surname, username, password) VALUES " \
-      "(:first_name, :surname, :username, :password)"
-    db.session.execute(
+      "(:first_name, :surname, :username, :password) RETURNING id"
+    result_db = db.session.execute(
       sql, 
       {
         "first_name": first_name,
@@ -22,13 +22,15 @@ def register(first_name, surname, username, password, password2):
         "password": hashed_pw
       }
     )
+    user = result_db.fetchone()
+    sql = "INSERT INTO financial_accounts (user_id, amount) VALUES (:user_id, :amount)"
+    db.session.execute(sql, {"user_id": user[0], "amount": 0})
     db.session.commit()
     result["isRegistered"] = True
+    print("GOT HERERERERE")
     return result
-  except:
-    result["isRegistered"] = False
-    result["message"] = "Something went wrong during registration."
-    return result
+  except Exception as error:
+    print("Error -----> ", error)
 
 def login(username, password):
   print("Here is username and PW " + str(username) + str(password))
