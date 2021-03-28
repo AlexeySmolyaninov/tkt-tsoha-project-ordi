@@ -36,3 +36,10 @@ Also if the project consists of multiple steps like building a house, then proje
 ## Application Link
 
 https://tsoha-ordi.herokuapp.com/
+
+### Release Notes
+
+- **March 28 2021**:
+  - You can register, login, logout and open your wallet
+  - DOING: user able to deposit and withdraw from his wallet
+  - NEXT: Implementation of creation of a new project with the subtasks
