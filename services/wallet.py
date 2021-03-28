@@ -1,6 +1,7 @@
 from db import db
 
 def get_amount_from_wallet(username):
+  result = {}
   sql = "SELECT id FROM users WHERE username = :username"
   result = db.session.execute(sql, {"username": username})
   user = result.fetchone()
