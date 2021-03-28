@@ -32,3 +32,7 @@ Also if the project consists of multiple steps like building a house, then proje
 ## Database Architecture
 
 ![picture alt](https://raw.githubusercontent.com/AlexeySmolyaninov/tkt-tsoha-project-ordi/master/Database_architecture_diagram.png "OrDi Database Architecture")
+
+## Application Link
+
+https://tsoha-ordi.herokuapp.com/
