@@ -22,9 +22,43 @@
     </div>
     <div class="col-sm-6">
       <div class="d-flex justify-content-md-center align-items-center">
-        <a class="btn btn-primary rounded shadow-lg" href="/servicesToMe">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdraw">
           Withdraw
-        </a>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-md-center" style="margin: 50px;">
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-md-center align-items-center">
+        <table class="table table-striped">
+          <tbody>
+            {% for trans in transactions%}
+            <tr>
+              <td>
+                {% if trans[2] == 5 %}
+                  Deposit
+                {% elif trans[2] == 6 %}
+                  Withdraw
+                {% else %}
+                  Came from {{ trans[0] }}
+                {% endif %}
+              </td>
+              {% if trans[2] == 5 %}
+                <td style="color: green;">+ {{ trans[4]}}</td>
+              {% elif trans[2] == 6 %}
+                <td style="color: red;">- {{ trans[4]}}</td>
+              {% else %}
+                <td>{{ trans[4]}}</td>
+              {% endif %}
+              
+              <td> {{ trans[3].date() }} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -41,9 +75,29 @@
       <div class="modal-body">
         <form action="/deposit" method="POST">
           <div class="form-group">
-            <input type="text" name="amount" class="form-control" id="amount" value="0" required>
+            <input type="number" name="depositAmount" class="form-control" id="depositAmount" value="0" required>
           </div>
           <button type="submit" class="btn btn-success">Deposit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="withdraw" tabindex="-1" aria-labelledby="withdrawLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/withdraw" method="POST">
+          <div class="form-group">
+            <input type="number" name="withdrawAmount" class="form-control" id="withdrawAmount" value="0" required>
+          </div>
+          <button type="submit" class="btn btn-warning">Withdraw</button>
         </form>
       </div>
     </div>

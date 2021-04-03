@@ -6,7 +6,7 @@ import services.login_register as loginRegister
 def login():
   if request.method == "GET":
     if "user" in session: 
-      return redirect("/profile/" + "alexsmol")
+      return redirect("/profile")
     else:
       return render_template("login.html")
   else:
@@ -15,7 +15,7 @@ def login():
     result = loginRegister.login(user_name, password)
     if result["logedIn"] == True:
       session["user"] = user_name
-      return redirect("/profile/" + user_name)
+      return redirect("/profile")
     else:
       return render_template("login.html", message=result["message"]) 
 
@@ -40,7 +40,7 @@ def register():
       return redirect("/")
     else:
       session["user"] = user_name
-      return redirect("/profile/" + user_name)
+      return redirect("/profile")
 
 @app.route("/logout")
 def logout():

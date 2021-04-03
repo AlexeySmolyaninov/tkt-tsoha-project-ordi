@@ -8,3 +8,4 @@ app.secret_key = getenv("SECRET_KEY")
 import routes.login_register
 import routes.profile
 import routes.wallet
+import routes.services_by_me

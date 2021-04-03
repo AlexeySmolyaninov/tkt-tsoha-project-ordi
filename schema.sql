@@ -28,6 +28,33 @@ CREATE TABLE transactions (
   from_acc INTEGER REFERENCES financial_accounts NOT NULL,
   to_acc INTEGER REFERENCES financial_accounts NOT NULL,
   amount INTEGER NOT NULL,
-  date TIMESTAMP,
+  date TIMESTAMP NOT NULL,
   status INTEGER REFERENCES statuses NOT NULL
 );
+
+CREATE TABLE projects (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  provider INTEGER REFERENCES users NOT NULL,
+  client INTEGER REFERENCES users NOT NULL,
+  date TIMESTAMP NOT NULL,
+  amount INTEGER NOT NULL,
+  payed BOOLEAN DEFAULT FALSE,
+  status INTEGER REFERENCES statuses NOT NULL
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  status INTEGER REFERENCES statuses NOT NULL,
+  project_id INTEGER REFERENCES projects NOT NULL
+);
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  from_user INTEGER REFERENCES users NOT NULL,
+  to_user INTEGER REFERENCES users NOT NULL,
+  project_id INTEGER REFERENCES projects NOT NULL,
+  date TIMESTAMP NOT NULL
+)
