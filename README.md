@@ -40,6 +40,11 @@ https://tsoha-ordi.herokuapp.com/
 ### Release Notes
 
 - **March 28 2021**:
+
   - You can register, login, logout, open your wallet, deposit
-  - DOING: withdraw from his wallet
+  - DOING: withdraw from wallet
   - NEXT: Implementation of creation of a new project with the subtasks
+
+- **April 04 2021**:
+  - New: withdraw from wallet, view transaction in wallet, create projects under "Services by me", list projects in "Services by me"
+  - Next: add tasks to project, update project and tasks
