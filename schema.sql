@@ -35,13 +35,14 @@ CREATE TABLE transactions (
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
-  description TEXT NOT NULL,
+  description TEXT,
   provider INTEGER REFERENCES users NOT NULL,
   client INTEGER REFERENCES users NOT NULL,
   date TIMESTAMP NOT NULL,
   amount INTEGER NOT NULL,
   payed BOOLEAN DEFAULT FALSE,
-  status INTEGER REFERENCES statuses NOT NULL
+  status INTEGER REFERENCES statuses NOT NULL,
+  display BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE tasks (

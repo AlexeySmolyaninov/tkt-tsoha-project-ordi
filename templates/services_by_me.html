@@ -18,41 +18,45 @@
       <div class="col-sm-12">
         <div class="d-flex justify-content-md-center align-items-center">
           <h2>
-            Projects create by me
+            Projects by me
           </h2>
         </div>
       </div>
     </div>
 
     <div class="row justify-content-center align-items-center" style="margin: 50px;">
-      <div class="col-sm-12">
-        <div class="d-flex justify-content-md-center align-items-center">
-          <div class="card" style="width: 25rem; margin-bottom: 50px;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
+      {% for project in projects %}
+        <div class="col-sm-6">
+          <div class="d-flex justify-content-md-center align-items-center">
+            <div class="card shadow-lg" style="width: 25rem; margin-bottom: 50px; background-color: white;">
+              <div class="card-body">
+                <h5 class="card-title">{{ project[0] }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ project[1] }}</h6>
+                <p class="card-text">{{ project[2] }}...</p>
+                {% if project[3] == 1 %}
+                  <span class="badge badge-primary">Created</span>
+                {% elif project[3] == 2 %}
+                  <span class="badge badge-warning">In Progress</span>
+                {% elif project[3] == 2 %}
+                  <span class="badge badge-success">Done</span>
+                {% else %}
+                  <span class="badge badge-danger">Blocker</span>
+                {% endif %}
+
+                {% if project[4] == True %}
+                  <a href="#" class="badge badge-danger">Trash</a>
+                {% endif %}
+
+                <a href="#" class="card-link" style="float: right;">View Tasks >></a>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="d-flex justify-content-md-center align-items-center">
-          <div class="card" style="width: 25rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 
+  <!-- MODEL -->
   <div class="modal fade" id="new_task" tabindex="-1" aria-labelledby="NewProjectLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -65,26 +69,34 @@
         <div class="modal-body">
           <form action="/newProject" method="POST">
             <div class="form-group">
-              <input type="text" name="projectName" id="projectName" class="form-control" required>
+              <input type="text" name="title" id="title" class="form-control" placeholder="Project Name" required>
             </div>
             <div class="form-group">
-              <select class="form-control" name="user" id="user" required>
-                <option>Abel</option>
-                <option>Zina</option>
-                <option>Tiia</option>
+              <textarea name="description" class="form-control" id="description" placeholder="Write Some Decription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="user">Select client</label>
+              <select class="form-control" name="client" id="client" required>
+                {% for user in users %}
+                <option value="{{ user[0] }}">{{ user[1] }}</option>
+                {% endfor%}
               </select>
             </div>
+            <!-- Status is hard with those values into DB-->
             <div class="form-group">
+              <label for="status">Select status of project</label>
               <select class="form-control" name="status" id="status" required>
-                <option>Created</option>
-                <option>In Progress</option>
-                <option>Done</option>
+                <option value="1">Created</option>
+                <option value="2">In Progress</option>
+                <option value="3">Done</option>
+                <option value="4">Blocked</option>
               </select>
             </div>
             <div class="form-group">
-              <input type="number" name="amount" class="form-control" id="amount" value="0" required>
+              <label for="amount">Amount to pay </label>
+              <input type="number" name="amount" class="form-control" id="amount" value="1" required>
             </div>
-            <button type="submit" class="btn btn-success">Deposit</button>
+            <button type="submit" class="btn btn-success">Create Task</button>
           </form>
         </div>
       </div>
