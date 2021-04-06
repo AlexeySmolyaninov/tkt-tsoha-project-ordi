@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ user_name}}{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center align-items-center" style="margin: 50px;">
+      <div class="col-sm-12">
+        <div class="d-flex justify-content-center align-items-center">
+          <h2>
+            Services to me
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center" style="margin: 50px;">
+      {% for project in projects %}
+        <div class="col-sm-6">
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="card shadow-lg" style="width: 25rem; margin-bottom: 50px; background-color: white;">
+              <div class="card-body">
+                <h5 class="card-title">
+                  {{ project[0] }} <span style="color:green; float: right;">{{ project[6]}}$
+                  {% if project[4] == True %}
+                  👍
+                  {% endif %}
+                  </span></h5>
+                <h6 class="card-subtitle mb-2 text-muted">By: {{ project[1] }}</h6>
+                <p class="card-text">{{ project[2] }}...</p>
+                {% if project[3] == 1 %}
+                  <span class="badge badge-primary">Created</span>
+                {% elif project[3] == 2 %}
+                  <span class="badge badge-warning">In Progress</span>
+                {% elif project[3] == 3 %}
+                  <span class="badge badge-success">Done</span>
+                {% else %}
+                  <span class="badge badge-danger">Blocker</span>
+                {% endif %}
+
+                {% if project[4] == True %}
+                  <a href="#" class="badge badge-danger">Trash</a>
+                {% endif %}
+
+                <a href="#" class="card-link" style="float: right;">Info >></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

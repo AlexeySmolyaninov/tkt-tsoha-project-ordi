@@ -32,8 +32,8 @@ def create_project(title, description, provider, client, amount, payed, status, 
 
   newProject = result.fetchone()
 
-  sql = "INSERT INTO tasks (title, status, project_id) " \
-    "VALUES (:title, :status, :project_id)"
+  sql = "INSERT INTO tasks (title, status, project_id, date) " \
+    "VALUES (:title, :status, :project_id, NOW())"
   db.session.execute(
     sql,
     {
@@ -45,8 +45,8 @@ def create_project(title, description, provider, client, amount, payed, status, 
   db.session.commit();
   return
 
-def get_projects(provider_id):
-  sql = "SELECT p.title, u.username, LEFT(p.description, 20) AS desc, p.status, p.payed FROM projects p INNER JOIN users u ON p.client = u.id WHERE p.provider = :provider_id AND display = True"
+def get_projects_by_me(provider_id):
+  sql = "SELECT p.title, u.username, LEFT(p.description, 20) AS desc, p.status, p.payed, p.id, p.amount FROM projects p INNER JOIN users u ON p.client = u.id WHERE p.provider = :provider_id AND display = True"
   projects = db.session.execute(
     sql,
     {
@@ -54,3 +54,43 @@ def get_projects(provider_id):
     }
   ).fetchall()
   return projects
+
+def get_projects_to_me(my_id):
+  sql = "SELECT p.title, u.username, LEFT(p.description, 20) AS desc, p.status, p.payed, p.id, p.amount FROM projects p " \
+     "INNER JOIN users u ON p.provider = u.id WHERE p.client = :client_id AND display = True"
+  projects = db.session.execute(
+    sql,
+    {
+      "client_id": my_id
+    }
+  ).fetchall()
+  return projects
+
+def get_project(id):
+  sql = "select p.id, p.title, p.description, u2.username as provider, u.username as client, p.status, p.display from projects p INNER JOIN users u on p.client = u.id INNER JOIN users u2 ON p.provider = u2.id where p.id = :project_id"
+  project = db.session.execute(
+    sql,
+    {
+      "project_id": id
+    }
+  ).fetchone()
+  return project
+
+def get_tasks(project_id):
+  sql = "SELECT id, title, status, date FROM tasks WHERE project_id = :project_id ORDER BY date"
+  tasks = db.session.execute(sql, {"project_id": project_id}).fetchall()
+  return tasks
+
+def create_task(title, status, project_id):
+  sql = "INSERT INTO tasks (title, status, project_id, date) " \
+    "VALUES (:title, :status, :project_id, NOW())"
+  db.session.execute(
+    sql,
+    {
+      "title": title,
+      "status": status,
+      "project_id": project_id
+    }
+  )
+  db.session.commit()
+  return

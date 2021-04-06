@@ -2,9 +2,9 @@
 {% block title %}My Wallet{% endblock %}
 {% block content %}
 <div class="container">
-  <div class="row justify-content-md-center" style="margin: 50px;">
-    <div class="col-sm-6">
-      <div class="d-flex justify-content-md-center align-items-center">
+  <div class="row justify-content-center" style="margin: 50px;">
+    <div class="col">
+      <div class="d-flex justify-content-center align-items-center">
         <h1>{{amount}} $</h1>
       </div>
     </div>
@@ -12,16 +12,16 @@
 </div>
 <div class="container">
   <div class="row justify-content-center align-items-center" style="margin: 50px;">
-    <div class="col-sm-6">
-      <div class="d-flex justify-content-md-center align-items-center">
+    <div class="col-6">
+      <div class="d-flex justify-content-center align-items-center">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit">
           Deposit
         </button>
 
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="d-flex justify-content-md-center align-items-center">
+    <div class="col-6">
+      <div class="d-flex justify-content-center align-items-center">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdraw">
           Withdraw
         </button>
@@ -30,9 +30,9 @@
   </div>
 </div>
 <div class="container">
-  <div class="row justify-content-md-center" style="margin: 50px;">
-    <div class="col-sm-6">
-      <div class="d-flex justify-content-md-center align-items-center">
+  <div class="row justify-content-center" style="margin: 50px;">
+    <div class="col-6">
+      <div class="d-flex justify-content-center align-items-center">
         <table class="table table-striped">
           <tbody>
             {% for trans in transactions%}

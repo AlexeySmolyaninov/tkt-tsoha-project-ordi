@@ -49,7 +49,8 @@ CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   status INTEGER REFERENCES statuses NOT NULL,
-  project_id INTEGER REFERENCES projects NOT NULL
+  project_id INTEGER REFERENCES projects NOT NULL,
+  date TIMESTAMP NOT NULL
 );
 
 CREATE TABLE messages (

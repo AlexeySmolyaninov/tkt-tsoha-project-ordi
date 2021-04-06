@@ -36,8 +36,8 @@ def register():
       password_1,
       password_2
     )
-    if result["isRegistered"] == True:
-      return redirect("/")
+    if result["isRegistered"] == False:
+      return render_template("register.html", message = result["message"])
     else:
       session["user"] = user_name
       return redirect("/profile")

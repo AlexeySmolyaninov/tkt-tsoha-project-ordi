@@ -1,5 +1,48 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
+{% block style %}
+<style>
+  @keyframes fade-out-move {
+    0% {
+      opacity: 1;
+      left: 0%;
+    }
+    100% {
+      opacity: 0;
+      left: 100%;
+    }
+  }
+
+  #welcome-banner{
+    z-index: 2;
+    position: absolute;
+    background-color: rgb(12, 9, 9);
+    height: 100vh;
+    width: 100vw;
+
+    animation: fade-out-move 1s;
+    animation-delay: 1.2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  
+  #welcome-banner h1{
+    color: rgb(240, 234, 234);
+    font-size: 10rem;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100vh;
+
+    animation: fade-in 1s;
+    animation-iteration-count: 1;  
+  }
+</style>
+{% endblock %}
+{% block welcomebanner %}
+  <div id="welcome-banner">
+    <h1>OrDi <span id="handshake">&#129309;</span></h1>
+  </div>
+{% endblock %}
 {% block content %}
   <div>
     <div>

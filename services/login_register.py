@@ -27,13 +27,13 @@ def register(first_name, surname, username, password, password2):
     db.session.execute(sql, {"user_id": user[0], "amount": 0})
     db.session.commit()
     result["isRegistered"] = True
-    print("GOT HERERERERE")
     return result
   except Exception as error:
-    print("Error -----> ", error)
+    result["isRegistered"] = False
+    result["message"] = error
+    return result
 
 def login(username, password):
-  print("Here is username and PW " + str(username) + str(password))
   result = {"logedIn": False, "message": ""}
   sql = "SELECT password FROM users WHERE username = :username"
   db_result = db.session.execute(sql, {"username": username})

@@ -9,6 +9,34 @@
   
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    {% block style %}{% endblock %}
+    {% block script %}{% endblock %}
+    <style>
+
+      @media screen and (max-width: 600px) {
+        #welcome-banner h1{
+          color: rgb(240, 234, 234);
+          font-size: 5rem;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 100vh;
+
+          animation: fade-in 1s;
+          animation-iteration-count: 1;  
+        }
+      }
+
+      @keyframes fade-in {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+      }
+
+      #base {
+        z-index: 1;
+        animation: fade-in 0.5s;
+        animation-iteration-count: 1;   
+      }
+    </style>
   </head>
   <body>
       {% if message %}
@@ -19,7 +47,8 @@
           </button>                    
         </div>
       {% endif %}
-      <div class="container">
+      {% block welcomebanner %}{% endblock %}
+      <div id="base" class="container" style="background-color: white;">
         <div class="row">
             <div class="col-sm-12">
                 {% if session.user %}
