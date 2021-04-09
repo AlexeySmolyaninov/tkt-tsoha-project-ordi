@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, session
-from services.services import create_project, get_users, username_to_userid, get_projects_by_me, get_projects_to_me, get_project, get_tasks, create_task
+from services.services import create_project, get_users, username_to_userid, get_projects_by_me, get_projects_to_me, get_project, get_tasks, create_task, update_task as update_task_s, update_project as update_project_s
 
 @app.route("/servicesByMe")
 def services_by_me():
@@ -65,8 +65,34 @@ def view_project(project_id):
 
 @app.route("/task", methods=["POST"])
 def new_task():
-  title = request.form["title"]
-  status = request.form["status"]
+  if "user" in session:
+    title = request.form["title"]
+    status = request.form["status"]
+    project_id = request.form["project_id"]
+    create_task(title, status, project_id)
+    return redirect("/servicesByMe/projects/" + str(project_id))
+  else:
+    return redirect("/")
+
+@app.route("/updateProject", methods=["POST"])
+def update_project():
+  print(request.form)
   project_id = request.form["project_id"]
-  create_task(title, status, project_id)
-  return redirect("/servicesByMe/projects/" + str(project_id))
+  title = request.form["project"]
+  description = request.form["description"]
+  amount = request.form["amount"]
+  update_project_s(project_id, title, description, amount)
+  return redirect("/servicesByMe/projects/"+str(project_id))
+
+
+@app.route("/updateTask", methods=["POST"])
+def update_task():
+  if "user" in session:
+    project_id = request.form["project_id"]
+    task_id = request.form["task_id"]
+    title = request.form["task"]
+    status = request.form["status"]
+    update_task_s(title, status, task_id)
+    return redirect("/servicesByMe/projects/"+str(project_id))
+  else:
+    return redirect("/")

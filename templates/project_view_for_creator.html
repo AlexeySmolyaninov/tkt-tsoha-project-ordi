@@ -1,74 +1,102 @@
 {% extends "base.html" %}
 {% block title %}{{ user_name}}{% endblock %}
-{% block style %}
-  <style>
-    #chat {
-      position: absolute;
-      bottom: 1%;
-      right: 1%;
-      width: 50px;
-      height: 50px;
-      background-color: lightgreen;
-    }
-  </style>
-{% endblock %}
 {% block script %}
   <script>
     $(function () {
       $('[data-toggle="popover"]').popover()
     })
 
-    $('#updateTask').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      var task = button.data('task')
-      console.log("task", task)
-      var modal = $(this)
-      modal.find('.modal-body #task-update').val(task)
-    })
+    $(document).ready(function(){
+      $('#update_task').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var task = button.data('task')
+        var status = button.data('status')
+        var taskId = button.data('task-id')
+
+        var modal = $(this)
+        modal.find('.modal-body #task').val(task)
+        modal.find('.modal-body #status').val(status)
+        modal.find('.modal-body #task_id').val(taskId)
+      })
+
+      $('#update_task').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var task = button.data('task')
+        var status = button.data('status')
+        var taskId = button.data('task-id')
+
+        var modal = $(this)
+        modal.find('.modal-body #task').val(task)
+        modal.find('.modal-body #status').val(status)
+        modal.find('.modal-body #task_id').val(taskId)
+      })
+    });
   </script>
 {% endblock%}
 {% block content %}
 <div class="container">
   
-    <div class="row justify-content-center align-items-center" style="margin: 50px;">
-      <div class="col-sm-12">
-        <div class="d-flex justify-content-center align-items-center">
-          <h1>{{ project[1] }}</h1>
-        </div>
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h1>{{ project[1] }}</h1>
       </div>
     </div>
+  </div>
 
-    <div class="row justify-content-center align-items-center" style="margin: 50px;">
-      <div class="col-sm-12">
-        <div class="d-flex justify-content-center align-items-center">
-          <button style="margin-right: 10px" type="button" class="btn btn-outline-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ project[2] }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h3 style="color: green">{{ project[7] }} $</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <button id="btn-info" style="margin-right: 10px" class="btn btn-outline-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ project[2] }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </button>
+        <button id="btn-chat" style="margin-right: 10px" class="btn btn-outline-success" data-container="body" data-toggle="popover" data-placement="top" data-content="chitichat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+            <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </button>
+        <button id="btn-change" style="margin-right: 10px" class="btn btn-outline-secondary" data-toggle="modal" data-target="#update_project">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg>
+        </button>
+        <form action="/deleteProject" method="POST">
+          <button id="btn-delete" type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target="#update_project">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
             </svg>
           </button>
-          <button type="button" class="btn btn-outline-success" data-container="body" data-toggle="popover" data-placement="top" data-content="chitichat">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-              <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-              <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-            </svg>
-          </button>
-        </div>
+      </form>
       </div>
     </div>
+  </div>
 
-    <div class="row justify-content-center align-items-center" style="margin: 50px;">
-      <div class="col-sm-6">
-        <div class="d-flex justify-content-center align-items-center">
-          <h5>By: {{ project[3] }}</h5>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="d-flex justify-content-center align-items-center">
-          <h5>To: {{ project[4]}}</h5>
-        </div>
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-center align-items-center">
+        <p><strong>By:</strong> {{ project[3] }}</p>
       </div>
     </div>
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-center align-items-center">
+        <p><strong>To:</strong> {{ project[4]}}</p>
+      </div>
+    </div>
+  </div>
   
 
   <div class="row justify-content-center align-items-center" style="margin: 50px;">
@@ -88,10 +116,10 @@
               {% else %}
                 <span class="badge badge-danger">Blocker</span>
               {% endif %}
-              <button class="btn btn-outline-secondary card-link" style="float: right" data-toggle="modal" data-target="#updateTask" data-task="{{ task[1] }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+              <button class="btn btn-outline-secondary card-link" style="float: right" data-toggle="modal" data-target="#update_task" data-task="{{ task[1] }}" data-status="{{ task[2] }}" data-task-id="{{ task[0]}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                 </svg>
               </button>
             </div>
@@ -113,7 +141,37 @@
 </div>
 
 <!--MODAL-->
-<div class="modal fade" id="updateTask" tabindex="-1" aria-labelledby="UpdateTaskLabel" aria-hidden="true">
+<div class="modal fade" id="update_project" tabindex="-1" aria-labelledby="UpdateProjectLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UpdateProjectLabel">Change Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/updateProject" method="POST">
+          <div class="form-group">
+            <label for="project" class="col-form-label">Project:</label>
+            <input type="text" name="project" class="form-control" id="project" value="{{ project[1] }}">
+          </div>
+          <div class="form-group">
+            <textarea name="description" class="form-control" id="description" placeholder="Write Some Decription" rows="3">{{ project [2]}}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount to pay </label>
+            <input type="number" name="amount" class="form-control" id="amount" value="{{ project[7] }}" required>
+          </div>
+          <input type="hidden" name="project_id" id="task_project_id" value="{{ project[0] }}">
+          <button type="submit" class="btn btn-warning">Update Project</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="update_task" tabindex="-1" aria-labelledby="UpdateTaskLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -123,10 +181,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="/updateTask" method="POST">
           <div class="form-group">
-            <label for="task-update" class="col-form-label">Task:</label>
-            <input type="text" name="task-update" class="form-control" id="task-update">
+            <label for="task" class="col-form-label">Task:</label>
+            <input type="text" name="task" class="form-control" id="task">
           </div>
           <div class="form-group">
             <label for="status">Select status for task</label>
@@ -137,8 +195,9 @@
               <option value="4">Blocked</option>
             </select>
           </div>
-
-          <button type="submit" class="btn btn-primary">Send message</button>
+          <input type="hidden" name="task_id" id="task_id" value="">
+          <input type="hidden" name="project_id" id="task_project_id" value="{{ project[0] }}">
+          <button type="submit" class="btn btn-warning">Update Task</button>
         </form>
       </div>
     </div>
@@ -169,9 +228,7 @@
               <option value="4">Blocked</option>
             </select>
           </div>
-          <div class="form-group">
-            <input type="hidden" name="project_id" value="{{ project[0] }}">
-          </div>
+          <input type="hidden" name="project_id" value="{{ project[0] }}">
           <button type="submit" class="btn btn-success">Create Task</button>
         </form>
       </div>

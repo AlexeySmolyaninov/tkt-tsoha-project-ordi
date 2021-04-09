@@ -67,7 +67,7 @@ def get_projects_to_me(my_id):
   return projects
 
 def get_project(id):
-  sql = "select p.id, p.title, p.description, u2.username as provider, u.username as client, p.status, p.display from projects p INNER JOIN users u on p.client = u.id INNER JOIN users u2 ON p.provider = u2.id where p.id = :project_id"
+  sql = "select p.id, p.title, p.description, u2.username as provider, u.username as client, p.status, p.display, p.amount from projects p INNER JOIN users u on p.client = u.id INNER JOIN users u2 ON p.provider = u2.id where p.id = :project_id"
   project = db.session.execute(
     sql,
     {
@@ -89,6 +89,33 @@ def create_task(title, status, project_id):
     {
       "title": title,
       "status": status,
+      "project_id": project_id
+    }
+  )
+  db.session.commit()
+  return
+
+def update_task(title, status, task_id):
+  sql = "UPDATE tasks SET title = :title, status = :status WHERE id = :task_id"
+  db.session.execute(
+    sql,
+    {
+      "title": title,
+      "status": status,
+      "task_id": task_id
+    }
+  )
+  db.session.commit()
+  return
+
+def update_project(project_id, title, description, amount):
+  sql = "UPDATE projects SET title = :title, description = :desc, amount = :amount WHERE id = :project_id"
+  db.session.execute(
+    sql,
+    {
+      "title": title,
+      "desc": description,
+      "amount": amount,
       "project_id": project_id
     }
   )
