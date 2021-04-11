@@ -5,7 +5,7 @@ import services.login_register as loginRegister
 @app.route("/", methods=["GET", "POST"])
 def login():
   if request.method == "GET":
-    if "user" in session: 
+    if "user" in session and "user_id" in session: 
       return redirect("/profile")
     else:
       return render_template("login.html")
@@ -45,5 +45,6 @@ def register():
 @app.route("/logout")
 def logout():
   del session["user"]
+  del session["user_id"]
   return redirect("/")
   

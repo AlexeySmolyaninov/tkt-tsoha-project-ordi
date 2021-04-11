@@ -1,3 +1,4 @@
+from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 
@@ -26,6 +27,7 @@ def register(first_name, surname, username, password, password2):
     sql = "INSERT INTO financial_accounts (user_id, amount) VALUES (:user_id, :amount)"
     db.session.execute(sql, {"user_id": user[0], "amount": 0})
     db.session.commit()
+    session["user_id"] = user[0]
     result["isRegistered"] = True
     return result
   except Exception as error:
@@ -35,7 +37,7 @@ def register(first_name, surname, username, password, password2):
 
 def login(username, password):
   result = {"logedIn": False, "message": ""}
-  sql = "SELECT password FROM users WHERE username = :username"
+  sql = "SELECT password, id FROM users WHERE username = :username"
   db_result = db.session.execute(sql, {"username": username})
   user = db_result.fetchone()
 
@@ -46,6 +48,7 @@ def login(username, password):
   else:
     hash_value = user[0]
     if check_password_hash(hash_value, password):
+      session["user_id"] = user[1]
       result["logedIn"] = True
       return result
     else:
