@@ -37,6 +37,24 @@ Also if the project consists of multiple steps like building a house, then proje
 
 https://tsoha-ordi.herokuapp.com/
 
+## Guide on how to use an app
+
+### Scenario 1 | You want to create a project to client:
+
+- Login to service / if user don't have account register first
+- Go to "Services By Me"
+- Click green button "Create New Project"
+- Fill the data for the project and click "Create Project"
+- If you want to add more tasks to the project click on project "Info >>" and full fill with the task you need
+- Once the state of the project or task has changes update it in the specific project view
+
+### Scenario 2 | You want to monitor ordered service
+
+- Login to service / if user don't have account register first
+- Go to "Services To Me"
+- If the project exists then you can click on "Info >>" link to monitor the exact state of the project
+- Complete the payment, so that service provider will be rewarded for his duty
+
 ### Release Notes
 
 - **March 28 2021**:
@@ -46,5 +64,10 @@ https://tsoha-ordi.herokuapp.com/
   - NEXT: Implementation of creation of a new project with the subtasks
 
 - **April 04 2021**:
+
   - New: withdraw from wallet, view transaction in wallet, create projects under "Services by me", list projects in "Services by me"
   - Next: add tasks to project, update project and tasks
+
+- **April 11 2021**:
+  - New: Service provider can manage tasks under the project, Client can view his order projects as well look at the tasks of the project, Client can complete the payment, Client or Service Provider can hide the Project once it Done + Payed.
+  - Next: Implement Chat functionality under the project
