@@ -8,9 +8,9 @@ def get_amount_from_wallet(username):
   return {"fa_id": financial_account[0], "amount": financial_account[1]}
 
 def get_transactions(fa_id):
-  sql = "SELECT from_acc, to_acc, status, date, amount FROM transactions " \
-    "WHERE from_acc = :fa_id OR to_acc = :fa_id " \
-    "ORDER BY date DESC"
+  sql = "SELECT u.username AS from_acc, u2.username AS to_acc, t.status, t.date, t.amount FROM transactions t " \
+    "INNER JOIN users u ON u.id = t.from_acc INNER JOIN users u2 ON u2.id = t.to_acc " \
+    "WHERE t.from_acc = :fa_id OR t.to_acc = :fa_id ORDER BY date DESC"
   transactions = db.session.execute(sql, {"fa_id": fa_id}).fetchall()
   return transactions
 

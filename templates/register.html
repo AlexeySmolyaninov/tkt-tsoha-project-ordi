@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock %}
+{% block style %}
+<style>
+  #box-register {
+    position: absolute;
+    width: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+</style>
+{% endblock %}
 {% block content %}
-<div>
+<div id="box-register">
   <div>
     <h1 class="text-center" style="margin-bottom: 40px;">Register</h1>
   </div>

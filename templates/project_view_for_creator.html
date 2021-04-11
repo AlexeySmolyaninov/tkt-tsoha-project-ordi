@@ -1,5 +1,55 @@
 {% extends "base.html" %}
 {% block title %}{{ user_name}}{% endblock %}
+{% block style %}
+  <style>
+    @keyframes pop-chat-btn {
+      0% {
+          bottom: -3%;
+          background-color: white;
+        }
+      100% {
+        bottom: 3%;
+        background-color: #3dc1c7;
+        }
+    }
+
+    #btn-chat {
+      position: fixed;
+      border-radius: 50%;
+      background-color: #3dc1c7;
+      width: 5rem;
+      height: 5rem;
+      bottom: 3%;
+      right: 5%;
+
+      animation: pop-chat-btn 1s;
+      animation-iteration-count: 1;
+    }
+
+    #btn-chat:hover {
+      background-color: #309ca1;
+    }
+
+    #chat .modal-body {
+      height: 300px;
+      overflow-y: scroll;
+    }
+
+    #send-msg {
+      all: unset;
+    }
+
+    #send-msg:hover {
+      color: #007bff;
+      transform: scale(1.5);
+    }
+
+    #send-msg:focus {
+      border: 2px solid #007bff;
+      border-radius: 10%;
+    }
+  </style>
+{% endblock %}
 {% block script %}
   <script>
     $(function () {
@@ -17,18 +67,7 @@
         modal.find('.modal-body #task').val(task)
         modal.find('.modal-body #status').val(status)
         modal.find('.modal-body #task_id').val(taskId)
-      })
-
-      $('#update_task').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var task = button.data('task')
-        var status = button.data('status')
-        var taskId = button.data('task-id')
-
-        var modal = $(this)
-        modal.find('.modal-body #task').val(task)
-        modal.find('.modal-body #status').val(status)
-        modal.find('.modal-body #task_id').val(taskId)
+        modal.find('.modal-footer #delete_task_id').val(taskId)
       })
     });
   </script>
@@ -40,6 +79,11 @@
     <div class="col-sm-12">
       <div class="d-flex justify-content-center align-items-center">
         <h1>{{ project[1] }}</h1>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h6>ID: {{ project[0] }}</h6>
       </div>
     </div>
   </div>
@@ -61,26 +105,12 @@
             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
           </svg>
         </button>
-        <button id="btn-chat" style="margin-right: 10px" class="btn btn-outline-success" data-container="body" data-toggle="popover" data-placement="top" data-content="chitichat">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-            <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-          </svg>
-        </button>
         <button id="btn-change" style="margin-right: 10px" class="btn btn-outline-secondary" data-toggle="modal" data-target="#update_project">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
           </svg>
         </button>
-        <form action="/deleteProject" method="POST">
-          <button id="btn-delete" type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target="#update_project">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg>
-          </button>
-      </form>
       </div>
     </div>
   </div>
@@ -138,7 +168,16 @@
       </div>
     </div>
   </div>
+
+  <button id="btn-chat" class="btn btn-success" data-toggle="modal" data-target="#chat">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+      <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+      <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+    </svg>
+  </button>
 </div>
+
+
 
 <!--MODAL-->
 <div class="modal fade" id="update_project" tabindex="-1" aria-labelledby="UpdateProjectLabel" aria-hidden="true">
@@ -165,6 +204,17 @@
           </div>
           <input type="hidden" name="project_id" id="task_project_id" value="{{ project[0] }}">
           <button type="submit" class="btn btn-warning">Update Project</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <form action="/deleteProject" method="POST">
+          <input type="hidden" name="project_id" value="{{ project[0] }}">
+          <button id="btn-delete" type="submit" class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
         </form>
       </div>
     </div>
@@ -200,6 +250,18 @@
           <button type="submit" class="btn btn-warning">Update Task</button>
         </form>
       </div>
+      <div class="modal-footer">
+        <form action="/deleteTask" method="POST">
+          <input type="hidden" name="project_id"  value="{{ project[0] }}">
+          <input type="hidden" name="task_id" id="delete_task_id" value="">
+          <button class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -230,6 +292,61 @@
           </div>
           <input type="hidden" name="project_id" value="{{ project[0] }}">
           <button type="submit" class="btn btn-success">Create Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="chat" tabindex="-1" aria-labelledby="ChatLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chat with {{ project[4] }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <p>Hello</p>
+        </div>
+        <div>
+          <p>How is my Order</p>
+        </div>
+        <div>
+          <p>Hello</p>
+        </div>
+        <div>
+          <p>How is my Order</p>
+        </div>
+        <div>
+          <p>Hello</p>
+        </div>
+        <div>
+          <p>How is my Order</p>
+        </div>
+        <div>
+          <p>Hello</p>
+        </div>
+        <div>
+          <p>How is my Order</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <form>
+          <div class="form-row align-items-center">
+            <div class="col">
+              <input type="text" name="message" placeholder="Your message...">
+            </div>
+            <div class="col">
+              <button id="send-msg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

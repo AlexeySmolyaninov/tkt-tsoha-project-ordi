@@ -42,16 +42,20 @@
                   Deposit
                 {% elif trans[2] == 6 %}
                   Withdraw
+                {% elif trans[2] == 7 and trans[0] == session["user"] %}
+                  {{ trans[1] }}
                 {% else %}
-                  Came from {{ trans[0] }}
+                  {{ trans[0]}}
                 {% endif %}
               </td>
               {% if trans[2] == 5 %}
                 <td style="color: green;">+ {{ trans[4]}}</td>
               {% elif trans[2] == 6 %}
                 <td style="color: red;">- {{ trans[4]}}</td>
+              {% elif trans[2] == 7 and trans[0] == session["user"]%}
+                <td style="color: green;">+ {{ trans[4]}}</td>
               {% else %}
-                <td>{{ trans[4]}}</td>
+                <td style="color: red;">- {{ trans[4]}}</td>
               {% endif %}
               
               <td> {{ trans[3].date() }} </td>

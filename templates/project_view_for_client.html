@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}{{ user_name}}{% endblock %}
+{% block style %}
+  <style>
+    @keyframes pop-chat-btn {
+      0% {
+          bottom: -3%;
+          background-color: white;
+        }
+      100% {
+        bottom: 3%;
+        background-color: #3dc1c7;
+        }
+    }
+
+    #btn-chat {
+      position: fixed;
+      border-radius: 50%;
+      background-color: #3dc1c7;
+      width: 5rem;
+      height: 5rem;
+      bottom: 3%;
+      right: 5%;
+
+      animation: pop-chat-btn 1s;
+      animation-iteration-count: 1;
+    }
+
+    #btn-chat:hover {
+      background-color: #309ca1;
+    }
+  </style>
+{% endblock %}
+{% block script %}
+  <script>
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
+    $(document).ready(function(){
+      $('#update_task').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var task = button.data('task')
+        var status = button.data('status')
+        var taskId = button.data('task-id')
+
+        var modal = $(this)
+        modal.find('.modal-body #task').val(task)
+        modal.find('.modal-body #status').val(status)
+        modal.find('.modal-body #task_id').val(taskId)
+        modal.find('.modal-footer #delete_task_id').val(taskId)
+      })
+    });
+  </script>
+{% endblock%}
+{% block content %}
+<div class="container">
+  
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h1>{{ project[1] }}</h1>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h6>ID: {{ project[0] }}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h3 style="color: green">{{ project[7] }} $</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <button id="btn-info" style="margin-right: 10px" class="btn btn-outline-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ project[2] }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </button>
+        {% if project[8] == False%}
+          <form action="/pay" method="POST">
+            <input type="hidden" name="project_id" value="{{ project[0] }}">
+            <input type="hidden" name="amount" value="{{ project[7] }}">
+            <input type="hidden" name="provider" value="{{ project[3] }}">
+            <button class="btn btn-success" type="submit">Pay</button>
+          </form>
+        {% else %}
+          <h3>You have payed! 👍</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-center align-items-center">
+        <p><strong>By:</strong> {{ project[3] }}</p>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-center align-items-center">
+        <p><strong>To:</strong> {{ project[4]}}</p>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    {% for task in tasks %}
+      <div class="col-12">
+        <div class="d-flex justify-content-md-center align-items-center">
+          <div class="card shadow-lg" style="width: 25rem; margin-bottom: 50px; background-color: white;">
+            <div class="card-body">
+              <h5 class="card-title">{{ task[1] }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ task[3].date() }}</h6>
+              {% if task[2] == 1 %}
+                <span class="badge badge-primary">Created</span>
+              {% elif task[2] == 2 %}
+                <span class="badge badge-warning">In Progress</span>
+              {% elif task[2] == 3 %}
+                <span class="badge badge-success">Done</span>
+              {% else %}
+                <span class="badge badge-danger">Blocker</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <button id="btn-chat" class="btn btn-success" data-container="body" data-toggle="popover" data-placement="top" data-content="chitichat">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+      <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+      <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+    </svg>
+  </button>
+</div>
+
+{% endblock %}
