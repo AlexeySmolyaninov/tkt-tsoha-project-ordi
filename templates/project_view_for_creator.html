@@ -69,6 +69,11 @@
         modal.find('.modal-body #task_id').val(taskId)
         modal.find('.modal-footer #delete_task_id').val(taskId)
       })
+
+      $("#send-msg").click(function(){
+        event.preventDefault();
+        $.ajax("/jsonPlease")
+      });
     });
   </script>
 {% endblock%}

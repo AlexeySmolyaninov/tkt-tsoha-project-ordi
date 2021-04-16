@@ -1,14 +1,83 @@
 {% extends "base.html" %}
 {% block title %}{{ user_name}}{% endblock %}
+{% block style %}
+<style>
+  #profile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  #btn-wallet, #btn-s-by-me, #btn-s-to-me {
+    width: 180px;
+    height: 180px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 180px;
+    border-radius: 15%;
+
+    box-shadow: 5px 5px;
+  }
+
+  #btn-wallet {
+    opacity: 0;
+
+    animation: fade-in 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  #btn-s-by-me {
+    opacity: 0;
+    background-color: #1EFAD4;
+
+    animation: fade-in 0.5s;
+    animation-iteration-count: 1;
+    animation-delay: 0.4s;
+    animation-fill-mode: forwards;
+  }
+  #btn-s-by-me:hover, #btn-s-by-me:focus {
+    background-color: #1bdbbb;
+  }
+
+  #btn-s-to-me {
+    opacity: 0;
+    background-color: #E25DFC;
+
+    animation: fade-in 0.5s;
+    animation-iteration-count: 1;
+    animation-delay: 0.8s;
+    animation-fill-mode: forwards;
+  }
+
+  #btn-s-to-me:hover, #btn-s-to-me:focus {
+    background-color: #ca53e2;
+  }
+
+  .profile-icon {
+    transform: scale(2);
+  }
+
+  .btn-name {
+    top: -90%;
+    left: 0;
+    position: relative;
+  }
+</style>
+{% endblock %}
 {% block content %}
-  <div class="container">
+  <div id="profile" class="container">
     <div class="row justify-content-center align-items-center" style="margin-top: 50px;">
       <div class="col">
         <div class="d-flex justify-content-center align-items-center">
-          <a class="btn btn-warning rounded shadow-lg" href="/wallet">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-              <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-            </svg> Wallet
+          <a id="btn-wallet" class="btn btn-warning" href="/wallet">
+            <div>
+              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+              </svg>
+            </div>
+            <p class="btn-name">Wallet</p>
           </a>
         </div>
       </div>
@@ -16,19 +85,25 @@
     <div class="row justify-content-center align-items-center">
       <div class="col-sm-6" style="margin-top: 50px">
         <div class="d-flex justify-content-center align-items-center">
-          <a class="btn btn-primary rounded shadow-lg" href="/servicesByMe">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
-              <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-            </svg> Services by me
+          <a id="btn-s-by-me" class="btn " href="/servicesByMe">
+            <div>
+              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hammer" viewBox="0 0 16 16">
+                <path d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5.009 5.009 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334z"/>
+              </svg>
+            </div>
+            <p class="btn-name">Services by me</p>
           </a>
         </div>
       </div>
       <div class="col-sm-6" style="margin-top: 50px">
         <div class="d-flex justify-content-center align-items-center">
-          <a class="btn btn-primary rounded shadow-lg" href="/servicesToMe">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
-              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-            </svg> Services to me
+          <a id="btn-s-to-me" class="btn" href="/servicesToMe">
+            <div>
+              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+              </svg>
+            </div> 
+            <p class="btn-name">Services to me</p>
           </a>
         </div>
       </div>

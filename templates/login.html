@@ -44,6 +44,11 @@
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+
+    background-color: #fefeffb3;
+    padding: 50px;
+    border-radius: 5%;
+    box-shadow: 8px 10px;
   }
 </style>
 {% endblock %}
@@ -55,21 +60,19 @@
 {% block content %}
 <div id="box-login">
   <div>
-    <div>
-      <h1 class="text-center" style="margin-bottom: 40px;">Login</h1>
-    </div>
-    <div>
-      <form action="/" method="POST">
-        <div class="form-group">
-          <input type="text" name="username" class="form-control" id="username" placeholder="You username" required>
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" class="form-control" id="password" placeholder="Your password" required>
-        </div>
-          <button type="submit" class="btn btn-success">Login</button>
-          <a style="float: right" class="btn btn-outline-primary" href="/register">Register</a>
-      </form>
-    </div>
+    <h1 class="text-center" style="margin-bottom: 40px;">Login</h1>
+  </div>
+  <div>
+    <form action="/" method="POST">
+      <div class="form-group">
+        <input type="text" name="username" class="form-control" id="username" placeholder="You username" required>
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Your password" required>
+      </div>
+        <button type="submit" class="btn btn-success">Login</button>
+        <a style="float: right" class="btn btn-outline-primary" href="/register">Register</a>
+    </form>
   </div>
 </div>
 {% endblock%}

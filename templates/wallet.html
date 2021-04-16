@@ -1,69 +1,65 @@
 {% extends "base.html" %}
 {% block title %}My Wallet{% endblock %}
 {% block content %}
-<div class="container">
-  <div class="row justify-content-center" style="margin: 50px;">
-    <div class="col">
-      <div class="d-flex justify-content-center align-items-center">
-        <h1>{{amount}} $</h1>
-      </div>
+<div class="row justify-content-center" style="margin: 50px;">
+  <div class="col">
+    <div class="d-flex justify-content-center align-items-center">
+      <h1>{{amount}} $</h1>
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row justify-content-center align-items-center" style="margin: 50px;">
-    <div class="col-6">
-      <div class="d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit">
-          Deposit
-        </button>
 
-      </div>
+<div class="row justify-content-center align-items-center" style="margin: 50px;">
+  <div class="col-6">
+    <div class="d-flex justify-content-center align-items-center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit">
+        Deposit
+      </button>
+
     </div>
-    <div class="col-6">
-      <div class="d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdraw">
-          Withdraw
-        </button>
-      </div>
+  </div>
+  <div class="col-6">
+    <div class="d-flex justify-content-center align-items-center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdraw">
+        Withdraw
+      </button>
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row justify-content-center" style="margin: 50px;">
-    <div class="col-6">
-      <div class="d-flex justify-content-center align-items-center">
-        <table class="table table-striped">
-          <tbody>
-            {% for trans in transactions%}
-            <tr>
-              <td>
-                {% if trans[2] == 5 %}
-                  Deposit
-                {% elif trans[2] == 6 %}
-                  Withdraw
-                {% elif trans[2] == 7 and trans[0] == session["user"] %}
-                  {{ trans[1] }}
-                {% else %}
-                  {{ trans[0]}}
-                {% endif %}
-              </td>
+
+<div class="row justify-content-center" style="margin: 50px;">
+  <div class="col-6">
+    <div class="d-flex justify-content-center align-items-center">
+      <table class="table table-striped">
+        <tbody>
+          {% for trans in transactions%}
+          <tr>
+            <td>
               {% if trans[2] == 5 %}
-                <td style="color: green;">+ {{ trans[4]}}</td>
+                Deposit
               {% elif trans[2] == 6 %}
-                <td style="color: red;">- {{ trans[4]}}</td>
-              {% elif trans[2] == 7 and trans[0] == session["user"]%}
-                <td style="color: green;">+ {{ trans[4]}}</td>
+                Withdraw
+              {% elif trans[2] == 7 and trans[0] == session["user"] %}
+                {{ trans[1] }}
               {% else %}
-                <td style="color: red;">- {{ trans[4]}}</td>
+                {{ trans[0]}}
               {% endif %}
-              
-              <td> {{ trans[3].date() }} </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+            </td>
+            {% if trans[2] == 5 %}
+              <td style="color: green;">+ {{ trans[4]}}</td>
+            {% elif trans[2] == 6 %}
+              <td style="color: red;">- {{ trans[4]}}</td>
+            {% elif trans[2] == 7 and trans[0] == session["user"]%}
+              <td style="color: green;">+ {{ trans[4]}}</td>
+            {% else %}
+              <td style="color: red;">- {{ trans[4]}}</td>
+            {% endif %}
+            
+            <td> {{ trans[3].date() }} </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
