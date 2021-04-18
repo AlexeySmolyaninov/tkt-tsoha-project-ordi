@@ -9,14 +9,14 @@
         }
       100% {
         bottom: 3%;
-        background-color: #3dc1c7;
+        background-color: #11cc04;
         }
     }
 
     #btn-chat {
       position: fixed;
       border-radius: 50%;
-      background-color: #3dc1c7;
+      background-color: #11cc04;
       width: 5rem;
       height: 5rem;
       bottom: 3%;
@@ -27,12 +27,54 @@
     }
 
     #btn-chat:hover {
-      background-color: #309ca1;
+      background-color: #12a307;
+    }
+
+    #chat-body {
+      height: 300px;
+      overflow-y: scroll;
     }
   </style>
 {% endblock %}
 {% block script %}
   <script>
+    function onMsgSend() {
+      const newMsg = document.getElementById("message").value
+      if(!newMsg){
+        console.log("input must have some data")
+        return
+      }
+      const providerUsername = document.getElementById("provider-username").value
+      const projectId = Number(document.getElementById("project-id").value)
+      const xhttp = new XMLHttpRequest()
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          message = JSON.parse(this.responseText)
+          const chatBody = document.getElementById('chat-body')
+          const messageEl = document.createElement('p')
+          messageEl.classList.add("msg-by-me")
+          messageEl.innerHTML = message.msg
+
+          chatBody.appendChild(messageEl)
+        }
+      };
+      xhttp.open("POST", "/messageByClient", true)
+      xhttp.setRequestHeader("Content-Type", "application/json")
+      const data = JSON.stringify(
+        {
+          "msg": newMsg,
+          providerUsername,
+          projectId
+        }
+        );
+      xhttp.send(data)
+    }
+
+    function onOpenChatModal() {
+      var chatBody = document.getElementById("chat-body");
+      chatBody.scrollTop = 300;
+    }
+
     $(function () {
       $('[data-toggle="popover"]').popover()
     })
@@ -93,12 +135,20 @@
             <input type="hidden" name="provider" value="{{ project[3] }}">
             <button class="btn btn-success" type="submit">Pay</button>
           </form>
-        {% else %}
-          <h3>You have payed! 👍</h3>
         {% endif %}
       </div>
     </div>
   </div>
+
+  {% if project[8] == True %}
+  <div class="row justify-content-center align-items-center" style="margin: 50px;">
+    <div class="col-sm-12">
+      <div class="d-flex justify-content-center align-items-center">
+        <h3>You have payed! 👍</h3>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   <div class="row justify-content-center align-items-center" style="margin: 50px;">
     <div class="col-sm-6">
@@ -138,7 +188,7 @@
     {% endfor %}
   </div>
 
-  <button id="btn-chat" class="btn btn-success" data-container="body" data-toggle="popover" data-placement="top" data-content="chitichat">
+  <button id="btn-chat" class="btn btn-success" data-toggle="modal" data-target="#chat" onclick="onOpenChatModal()">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
       <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
       <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -146,4 +196,42 @@
   </button>
 </div>
 
+<!-- MODALS -->
+<div class="modal fade" id="chat" tabindex="-1" aria-labelledby="ChatLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chat with {{ project[4] }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="chat-body" class="modal-body">
+        {% for message in chat_messages %}
+          {% if message[0] == session.user_id %}
+            <p class="msg-by-me">{{ message[2] }}</p>
+          {% else %}
+            <p class="msg-not-by-me">{{ message[2] }}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+          <div class="form-row align-items-center">
+            <div class="col">
+              <input type="text" name="message" id="message" placeholder="Your message..." />
+            </div>
+            <input type="hidden" id="provider-username" value="{{ project[3] }}" />
+            <input type="hidden" id="project-id" value="{{ project[0] }}" />
+            <div class="col">
+              <button id="send-msg" onclick="onMsgSend()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

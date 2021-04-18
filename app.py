@@ -13,8 +13,8 @@ def check_auth():
       print("You must login to the service first")  
       return redirect("/")
 
-
 import routes.login_register
 import routes.profile
 import routes.wallet
 import routes.services
+import routes.messages

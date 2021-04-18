@@ -6,6 +6,7 @@ from services.services import create_project, get_users, username_to_userid, \
   has_provider_rights, delete_task as delete_task_s, delete_project as delete_project_s, \
   update_project_status, has_client_rights, has_money, create_transaction, \
   hide_project as hide_project_s
+from services.message import get_messages
 
 @app.route("/servicesByMe")
 def services_by_me():
@@ -51,11 +52,13 @@ def view_project_creator(project_id):
   if has_provider_rights(session["user_id"], project_id):
     project = get_project(project_id)
     tasks = get_tasks(project_id)
+    chat_messages = get_messages(project_id)
     return render_template(
       "project_view_for_creator.html",
       back_link="/servicesByMe",
       project = project,
       tasks = tasks,
+      chat_messages = chat_messages[::-1]
     )
   else:
     return redirect("/")
@@ -66,13 +69,15 @@ def view_project_client(project_id):
   if has_client_rights(client_id, int(project_id)):
     project = get_project(project_id)
     tasks = get_tasks(project_id)
+    chat_messages = get_messages(project_id)
     message = None
     if "message" in request.args:
       message = request.args["message"]
     return render_template(
       "project_view_for_client.html",
       project = project,
-      tasks = tasks,  
+      tasks = tasks,
+      chat_messages = chat_messages[::-1],
       back_link = "/servicesToMe",
       message = message
     )

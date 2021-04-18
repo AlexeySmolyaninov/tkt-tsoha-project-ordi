@@ -9,14 +9,14 @@
         }
       100% {
         bottom: 3%;
-        background-color: #3dc1c7;
+        background-color: #11cc04;
         }
     }
 
     #btn-chat {
       position: fixed;
       border-radius: 50%;
-      background-color: #3dc1c7;
+      background-color: #11cc04;
       width: 5rem;
       height: 5rem;
       bottom: 3%;
@@ -27,7 +27,7 @@
     }
 
     #btn-chat:hover {
-      background-color: #309ca1;
+      background-color: #12a307;
     }
 
     #chat .modal-body {
@@ -52,6 +52,40 @@
 {% endblock %}
 {% block script %}
   <script>
+
+    function onMsgSend() {
+      const newMsg = document.getElementById("message").value
+      if(!newMsg){
+        console.log("input must have some data")
+        return
+      }
+      const clientUsername = document.getElementById("client-username").value
+      const projectId = Number(document.getElementById("project-id").value)
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          message = JSON.parse(this.responseText)
+          const chatBody = document.getElementById('chat-body')
+          const messageEl = document.createElement('p')
+          messageEl.classList.add("msg-by-me")
+          messageEl.innerHTML = message.msg
+
+          chatBody.appendChild(messageEl)
+          //newMsg. = ""
+        }
+      };
+      xhttp.open("POST", "/messageByProvider", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      const data = JSON.stringify(
+        {
+          "msg": newMsg,
+          clientUsername,
+          projectId
+        }
+        );
+      xhttp.send(data);
+    }
+
     $(function () {
       $('[data-toggle="popover"]').popover()
     })
@@ -69,11 +103,6 @@
         modal.find('.modal-body #task_id').val(taskId)
         modal.find('.modal-footer #delete_task_id').val(taskId)
       })
-
-      $("#send-msg").click(function(){
-        event.preventDefault();
-        $.ajax("/jsonPlease")
-      });
     });
   </script>
 {% endblock%}
@@ -312,47 +341,30 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div>
-          <p>Hello</p>
-        </div>
-        <div>
-          <p>How is my Order</p>
-        </div>
-        <div>
-          <p>Hello</p>
-        </div>
-        <div>
-          <p>How is my Order</p>
-        </div>
-        <div>
-          <p>Hello</p>
-        </div>
-        <div>
-          <p>How is my Order</p>
-        </div>
-        <div>
-          <p>Hello</p>
-        </div>
-        <div>
-          <p>How is my Order</p>
-        </div>
+      <div id="chat-body" class="modal-body">
+        {% for message in chat_messages %}
+          {% if message[0] == session.user_id %}
+            <p class="msg-by-me">{{ message[2] }}</p>
+          {% else %}
+            <p class="msg-not-by-me">{{ message[2] }}</p>
+          {% endif %}
+        {% endfor %}
       </div>
       <div class="modal-footer">
-        <form>
           <div class="form-row align-items-center">
             <div class="col">
-              <input type="text" name="message" placeholder="Your message...">
+              <input type="text" name="message" id="message" placeholder="Your message..." />
             </div>
+            <input type="hidden" id="client-username" value="{{ project[4] }}" />
+            <input type="hidden" id="project-id" value="{{ project[0] }}" />
             <div class="col">
-              <button id="send-msg">
+              <button id="send-msg" onclick="onMsgSend()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
                   <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
                 </svg>
               </button>
             </div>
           </div>
-        </form>
       </div>
     </div>
   </div>

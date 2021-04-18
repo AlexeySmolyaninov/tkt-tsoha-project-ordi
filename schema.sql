@@ -55,6 +55,7 @@ CREATE TABLE tasks (
 
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY,
+  message TEXT NOT NULL,
   from_user INTEGER REFERENCES users NOT NULL,
   to_user INTEGER REFERENCES users NOT NULL,
   project_id INTEGER REFERENCES projects NOT NULL,
