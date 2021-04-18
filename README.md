@@ -71,3 +71,7 @@ https://tsoha-ordi.herokuapp.com/
 - **April 11 2021**:
   - New: Service provider can manage tasks under the project, Client can view his order projects as well look at the tasks of the project, Client can complete the payment, Client or Service Provider can hide the Project once it Done + Payed.
   - Next: Implement Chat functionality under the project
+
+- **April 18 2021**:
+  - New: Chat functionality is done, as well restyled an app
+  - Next: Polishing design, implmenet comone exception handle, fix some minor UX bugs
