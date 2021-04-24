@@ -18,3 +18,11 @@ import routes.profile
 import routes.wallet
 import routes.services
 import routes.messages
+
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+  print(str(error))
+  return render_template(
+    "profile.html",
+    message = "Error occured, please contact admin"
+  )
