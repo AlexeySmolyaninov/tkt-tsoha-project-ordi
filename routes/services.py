@@ -107,6 +107,7 @@ def update_project():
     title = request.form["project"]
     description = request.form["description"]
     amount = request.form["amount"]
+    check_amount(amount)
     update_project_s(project_id, title, description, amount)
     return redirect("/servicesByMe/projects/"+str(project_id))
   else:
