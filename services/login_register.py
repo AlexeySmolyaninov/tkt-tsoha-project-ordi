@@ -31,8 +31,12 @@ def register(first_name, surname, username, password, password2):
     result["isRegistered"] = True
     return result
   except Exception as error:
+    print(error)
     result["isRegistered"] = False
-    result["message"] = error
+    if username in str(error):
+      result["message"] = "User with username " + username + " already exists."
+    else:
+      result["message"] = "Something went wrong during registration"
     return result
 
 def login(username, password):
