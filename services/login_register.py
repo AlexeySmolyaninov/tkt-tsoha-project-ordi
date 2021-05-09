@@ -43,7 +43,7 @@ def login(username, password):
 
   if user == None:
     result["logedIn"] = False
-    result["message"] = "Username " + str(username) + " is uknown"
+    result["message"] = "Wrong credentials"
     return result
   else:
     hash_value = user[0]
