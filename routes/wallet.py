@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, session, request
 from db import db
 from services.wallet import get_amount_from_wallet, deposit_to_wallet, get_transactions, withdraw_from_wallet
+from services.validate import check_amount
 
 @app.route("/wallet")
 def wallet():
@@ -18,6 +19,7 @@ def wallet():
 def deposit():
   amount_to_deposit = request.form["depositAmount"]
   username = session["user"]
+  check_amount(amount_to_deposit)
   deposit_to_wallet(amount_to_deposit, username)
   return redirect("/wallet")
 
@@ -25,5 +27,6 @@ def deposit():
 def withdraw():
   amount_to_withdraw = request.form["withdrawAmount"]
   username = session["user"]
+  check_amount(amount_to_withdraw)
   withdraw_from_wallet(amount_to_withdraw, username)
   return redirect("/wallet")
