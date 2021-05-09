@@ -69,9 +69,21 @@ https://tsoha-ordi.herokuapp.com/
   - Next: add tasks to project, update project and tasks
 
 - **April 11 2021**:
+
   - New: Service provider can manage tasks under the project, Client can view his order projects as well look at the tasks of the project, Client can complete the payment, Client or Service Provider can hide the Project once it Done + Payed.
   - Next: Implement Chat functionality under the project
 
 - **April 18 2021**:
+
   - New: Chat functionality is done, as well restyled an app
   - Next: Polishing design, implmenet comone exception handle, fix some minor UX bugs
+
+- **May 9 2021**:
+  - Fixed bugs:
+    - body tag is fixed (no-repeat effect)
+    - when user have send a message input text value will be cleared
+    - when trying to create already existing user app won't show db error, instead it will show more user readable
+    - user can't change project amount to a negative value
+    - when a user trying to login with uknown user error message has been changed to 'wrong credentials'
+    - user not able to withdraw and deposit negative amount
+    - not possible to create a task with negative amount
