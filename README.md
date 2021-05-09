@@ -80,7 +80,11 @@ https://tsoha-ordi.herokuapp.com/
 
 - **May 9 2021**:
   - Fixed bugs:
+<<<<<<< HEAD
     - body tag is fixed (no-repeat effect)
+=======
+    - <body> is fixed
+>>>>>>> 589cb3e62c1c1814cb68beac782c83e01e1fc8e7
     - when user have send a message input text value will be cleared
     - when trying to create already existing user app won't show db error, instead it will show more user readable
     - user can't change project amount to a negative value
