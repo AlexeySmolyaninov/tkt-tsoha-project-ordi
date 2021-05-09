@@ -56,6 +56,7 @@
           messageEl.innerHTML = message.msg
 
           chatBody.appendChild(messageEl)
+          document.getElementById("message").value = ""
         }
       };
       xhttp.open("POST", "/messageByClient", true)
