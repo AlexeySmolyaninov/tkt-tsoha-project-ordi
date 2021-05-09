@@ -7,6 +7,7 @@ from services.services import create_project, get_users, username_to_userid, \
   update_project_status, has_client_rights, has_money, create_transaction, \
   hide_project as hide_project_s
 from services.message import get_messages
+from services.validate import check_amount
 
 @app.route("/servicesByMe")
 def services_by_me():
@@ -32,6 +33,7 @@ def create_new_project():
   status = request.form["status"]
   display = True
   provider_id = username_to_userid(provider_username)
+  check_amount(amount)
   create_project(title, desc, provider_id, int(client), amount, payed, status, display)
   return redirect("/servicesByMe")
 
